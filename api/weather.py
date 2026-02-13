@@ -13,7 +13,7 @@ CITIES = [
         "country": "USA",
         "latitude": 36.1745,
         "longitude": -86.7680,
-        "dates": [datetime.date(2026, 2, 18)],
+        "dates": [datetime.date(2026, 2, 19)],
     },
     {
         "name": "Barcelona",
