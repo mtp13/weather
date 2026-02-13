@@ -82,10 +82,10 @@ def get_weather_data():
                     "country": city["country"],
                     "max_temp": None
                     if pd.isna(max_temp)
-                    else round(float(max_temp), 1),
+                    else round(float(max_temp), 0),
                     "min_temp": None
                     if pd.isna(min_temp)
-                    else round(float(min_temp), 1),
+                    else round(float(min_temp), 0),
                 }
             )
 
