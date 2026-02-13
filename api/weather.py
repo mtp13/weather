@@ -21,13 +21,19 @@ CITIES = [
         "latitude": 41.3902,
         "longitude": 2.154,
         "dates": [
-            datetime.date(2026, 2, 19),
             datetime.date(2026, 2, 20),
             datetime.date(2026, 2, 21),
             datetime.date(2026, 2, 22),
             datetime.date(2026, 2, 23),
             datetime.date(2026, 3, 2),
         ],
+    },
+    {
+        "name": "Balearic Sea",
+        "country": "Spain",
+        "latitude": 40.8,
+        "longitude": 2.4,
+        "dates": [datetime.date(2026, 2, 24)],
     },
     {
         "name": "La Goulette",
