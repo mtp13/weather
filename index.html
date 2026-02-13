@@ -119,7 +119,7 @@
     <script>
         async function fetchWeather() {
             try {
-                const response = await fetch('/api/weather');
+                const response = await fetch('./api/weather');
                 if (!response.ok) {
                     throw new Error('Failed to fetch weather data');
                 }
