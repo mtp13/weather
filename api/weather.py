@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 import openmeteo_requests
 import pandas as pd
@@ -7,85 +8,30 @@ import requests_cache
 from http.server import BaseHTTPRequestHandler
 from retry_requests import retry
 
-CITIES = [
-    {
-        "name": "Nashville",
-        "country": "USA",
-        "latitude": 36.1745,
-        "longitude": -86.7680,
-        "dates": [datetime.date(2026, 2, 19)],
-    },
-    {
-        "name": "Barcelona",
-        "country": "Spain",
-        "latitude": 41.3902,
-        "longitude": 2.154,
-        "dates": [
-            datetime.date(2026, 2, 20),
-            datetime.date(2026, 2, 21),
-            datetime.date(2026, 2, 22),
-            datetime.date(2026, 2, 23),
-            datetime.date(2026, 3, 2),
-        ],
-    },
-    {
-        "name": "Balearic Sea",
-        "country": "Spain",
-        "latitude": 40.8,
-        "longitude": 2.4,
-        "dates": [datetime.date(2026, 2, 24)],
-    },
-    {
-        "name": "La Goulette",
-        "country": "Tunisia",
-        "latitude": 36.8196,
-        "longitude": 10.3035,
-        "dates": [datetime.date(2026, 2, 25)],
-    },
-    {
-        "name": "Palermo",
-        "country": "Italy",
-        "latitude": 38.1167,
-        "longitude": 13.3667,
-        "dates": [datetime.date(2026, 2, 26)],
-    },
-    {
-        "name": "Rome",
-        "country": "Italy",
-        "latitude": 41.9028,
-        "longitude": 12.4964,
-        "dates": [datetime.date(2026, 2, 27)],
-    },
-    {
-        "name": "Savona",
-        "country": "Italy",
-        "latitude": 44.3,
-        "longitude": 8.4833,
-        "dates": [datetime.date(2026, 2, 28)],
-    },
-    {
-        "name": "Marseille",
-        "country": "France",
-        "latitude": 43.2964,
-        "longitude": 5.37,
-        "dates": [datetime.date(2026, 3, 1)],
-    },
-    {
-        "name": "Paris",
-        "country": "France",
-        "latitude": 48.8647,
-        "longitude": 2.349,
-        "dates": [
-            datetime.date(2026, 3, 3),
-            datetime.date(2026, 3, 4),
-            datetime.date(2026, 3, 5),
-            datetime.date(2026, 3, 6),
-        ],
-    },
-]
+
+def load_itinerary():
+    # Load from the root directory (one level up from api/)
+    # In Vercel, the file is usually at the root of the task
+    try:
+        # Try local path first (relative to script)
+        with open(
+            os.path.join(os.path.dirname(__file__), "../itinerary.json"), "r"
+        ) as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        # Fallback for Vercel environment where file might be in root
+        with open("itinerary.json", "r") as f:
+            data = json.load(f)
+
+    # Convert date strings to datetime.date objects
+    for city in data:
+        city["dates"] = [datetime.date.fromisoformat(d) for d in city["dates"]]
+    return data
 
 
 def get_weather_data():
+    CITIES = load_itinerary()
+
     cache_session = requests_cache.CachedSession(".cache", expire_after=3600)
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     openmeteo_client = openmeteo_requests.Client(session=retry_session)
