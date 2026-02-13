@@ -1,0 +1,12 @@
+[project]
+name = "weather"
+version = "0.1.0"
+description = "Weather forecast for travel dates"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "openmeteo-requests",
+    "pandas",
+    "requests-cache",
+    "retry-requests",
+]
