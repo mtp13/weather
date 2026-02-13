@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import tempfile
 
 import openmeteo_requests
 import pandas as pd
@@ -32,7 +33,9 @@ def load_itinerary():
 def get_weather_data():
     CITIES = load_itinerary()
 
-    cache_session = requests_cache.CachedSession(".cache", expire_after=3600)
+    # Use /tmp for cache in serverless environment (writable)
+    cache_path = os.path.join(tempfile.gettempdir(), ".cache")
+    cache_session = requests_cache.CachedSession(cache_path, expire_after=3600)
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     openmeteo_client = openmeteo_requests.Client(session=retry_session)
 
