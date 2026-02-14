@@ -64,6 +64,12 @@
         .weather-card .country {
             font-size: 0.85rem;
             color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .weather-card .weather {
+            font-size: 0.9rem;
+            color: #555;
             margin-bottom: 8px;
         }
         
@@ -161,6 +167,7 @@
                             <div class="date">${dateFormatted}</div>
                             <div class="city">${item.city}</div>
                             <div class="country">${item.country}</div>
+                            <div class="weather">-</div>
                             <div class="temps">
                                 <span class="unavailable">Forecast unavailable</span>
                             </div>
@@ -172,6 +179,7 @@
                             <div class="date">${dateFormatted}</div>
                             <div class="city">${item.city}</div>
                             <div class="country">${item.country}</div>
+                            <div class="weather">${item.weather || '-'}</div>
                             <div class="temps">
                                 <span class="high">↑ ${item.max_temp}°F</span>
                                 <span class="low">↓ ${item.min_temp}°F</span>
