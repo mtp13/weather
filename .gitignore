@@ -11,3 +11,4 @@ wheels/
 .vercel
 
 .cache.sqlite
+.env*
