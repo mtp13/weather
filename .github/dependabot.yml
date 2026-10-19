@@ -12,6 +12,17 @@ updates:
       python-dependencies:
         patterns:
           - "*"
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      dev-dependencies:
+        dependency-type: development
   - package-ecosystem: github-actions
     directory: /
     schedule:
