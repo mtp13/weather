@@ -1,49 +1,39 @@
 # Trip Weather Forecast
 
-Weather forecast for travel dates using the [Open-Meteo API](https://open-meteo.com/).
+A daily weather forecast for each day of an upcoming trip, from [Open-Meteo](https://open-meteo.com/) (free, no API key).
 
-## Live Site
+**Live:** https://mike.pullen.dev/weather/
 
-**URL**: https://mike.pullen.dev
+A Vercel Python function (`api/weather.py`) reads `itinerary.json` and returns one forecast per trip day, using each city's local calendar day. A static page (`index.html`, `app.js`, `style.css`) shows them. Days that have already passed are hidden, and once every date has passed the page says "Trip dates have passed".
 
-## Overview
+## Updating the trip
 
-This project fetches weather forecasts for cities on specific travel dates:
+Edit `itinerary.json`: a list of visits, each with `name`, `country`, `latitude`, `longitude` and `dates` (ISO `YYYY-MM-DD`, one per day).
 
-- Nashville, TN
-- Barcelona, Spain (2 visits)
-- La Goulette, Tunisia
-- Palermo, Italy
-- Rome, Italy
-- Savona, Italy
-- Marseille, France
-- Paris, France
-
-## Tech Stack
-
-- **Backend**: Python (Vercel serverless functions)
-- **Frontend**: Plain HTML/CSS/JS
-- **API**: Open-Meteo (free, no API key required)
-
-## Local Development
-
-```bash
-# Install dependencies
-uv sync
-
-# Run locally
-vercel dev
+```json
+[
+  {
+    "name": "Example City",
+    "country": "Country",
+    "latitude": 12.34,
+    "longitude": 56.78,
+    "dates": ["2027-01-10", "2027-01-11"]
+  }
+]
 ```
 
-Visit http://localhost:3000
+Open-Meteo forecasts up to 16 days ahead, so later dates show "Forecast available ~16 days ahead" until they come into range. The file is public.
 
-## Deployment
+## Running and testing
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Deploy automatically
+```sh
+uv sync && npm ci
+vercel dev                     # page and function at http://localhost:3000
+uv run python api/weather.py   # print the forecast in the terminal
+uv run pytest                  # Python tests
+npm test                       # JavaScript unit tests
+npm run test:e2e               # Playwright and accessibility tests
+npm run lint                   # Prettier and html-validate
+```
 
-## Notes
-
-- Free Open-Meteo API limits forecasts to 16 days
-- Dates beyond the forecast window show "Unavailable"
+See [AGENTS.md](AGENTS.md) for the layout, conventions and deployment notes.
