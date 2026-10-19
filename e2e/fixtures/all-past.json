@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-07-05",
+    "city": "Fixture Falls",
+    "country": "Testland",
+    "max_temp": null,
+    "min_temp": null,
+    "weather": null,
+    "status": "past"
+  },
+  {
+    "date": "2026-07-06",
+    "city": "Fixture Falls",
+    "country": "Testland",
+    "max_temp": null,
+    "min_temp": null,
+    "weather": null,
+    "status": "past"
+  }
+]
