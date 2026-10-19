@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2026-07-05",
+    "city": "Fixture Falls",
+    "country": "Testland",
+    "max_temp": null,
+    "min_temp": null,
+    "weather": null,
+    "status": "past"
+  },
+  {
+    "date": "2026-07-07",
+    "city": "Fixture Falls",
+    "country": "Testland",
+    "max_temp": 73,
+    "min_temp": 53,
+    "weather": "Overcast",
+    "status": "ok"
+  },
+  {
+    "date": "2026-07-30",
+    "city": "Sample Bay",
+    "country": "Examplia",
+    "max_temp": null,
+    "min_temp": null,
+    "weather": null,
+    "status": "out_of_range"
+  }
+]
