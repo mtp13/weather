@@ -12,3 +12,7 @@ wheels/
 
 .cache.sqlite
 .env*
+node_modules/
+test-results/
+playwright-report/
+.e2e-root/
