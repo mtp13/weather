@@ -9,6 +9,7 @@ Weather forecast for travel dates using the [Open-Meteo API](https://open-meteo.
 ## Overview
 
 This project fetches weather forecasts for cities on specific travel dates:
+
 - Nashville, TN
 - Barcelona, Spain (2 visits)
 - La Goulette, Tunisia

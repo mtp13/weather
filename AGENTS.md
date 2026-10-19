@@ -131,14 +131,14 @@ from weather.utils import format_date
 # Function with type hints
 def fetch_weather_data(latitude: float, longitude: float) -> dict[str, Any]:
     """Fetch weather data for the given coordinates.
-    
+
     Args:
         latitude: Latitude of the location.
         longitude: Longitude of the location.
-    
+
     Returns:
         Dictionary containing weather data.
-    
+
     Raises:
         ValueError: If coordinates are invalid.
         APIError: If the API request fails.
@@ -205,7 +205,7 @@ from weather import fetch
 def test_fetch_weather_returns_valid_data():
     """Test that fetch_weather returns properly formatted data."""
     result = fetch.fetch_weather(latitude=52.52, longitude=13.41)
-    
+
     assert isinstance(result, dict)
     assert "temperature" in result
     assert result["temperature"] is not None
