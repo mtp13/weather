@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  python:
+    name: Python lint, format & tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          enable-cache: true
+
+      - name: Install Python dependencies
+        run: uv sync --locked
+
+      - name: Lint Python with ruff
+        run: uv run ruff check .
+
+      - name: Check Python formatting with ruff
+        run: uv run ruff format --check .
+
+      - name: Run pytest
+        run: uv run pytest

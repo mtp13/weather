@@ -2,11 +2,11 @@ import datetime
 import json
 import os
 import tempfile
+from http.server import BaseHTTPRequestHandler
 
 import openmeteo_requests
 import pandas as pd
 import requests_cache
-from http.server import BaseHTTPRequestHandler
 from retry_requests import retry
 
 
@@ -15,13 +15,11 @@ def load_itinerary():
     # In Vercel, the file is usually at the root of the task
     try:
         # Try local path first (relative to script)
-        with open(
-            os.path.join(os.path.dirname(__file__), "../itinerary.json"), "r"
-        ) as f:
+        with open(os.path.join(os.path.dirname(__file__), "../itinerary.json")) as f:
             data = json.load(f)
     except FileNotFoundError:
         # Fallback for Vercel environment where file might be in root
-        with open("itinerary.json", "r") as f:
+        with open("itinerary.json") as f:
             data = json.load(f)
 
     # Convert date strings to datetime.date objects

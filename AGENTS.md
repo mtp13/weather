@@ -174,6 +174,7 @@ def fetch_weather_data(latitude: float, longitude: float) -> dict[str, Any]:
 # Good error handling
 class APIError(Exception):
     """Raised when the API request fails."""
+
     pass
 
 
