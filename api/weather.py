@@ -15,9 +15,7 @@ def load_itinerary():
     # In Vercel, the file is usually at the root of the task
     try:
         # Try local path first (relative to script)
-        with open(
-            os.path.join(os.path.dirname(__file__), "../itinerary.json")
-        ) as f:
+        with open(os.path.join(os.path.dirname(__file__), "../itinerary.json")) as f:
             data = json.load(f)
     except FileNotFoundError:
         # Fallback for Vercel environment where file might be in root
