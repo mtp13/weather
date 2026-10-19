@@ -1,0 +1,25 @@
+# Tooling and tests are never deployed. Vercel needs index.html, app.js, style.css,
+# cruise.png, vercel.json, itinerary.json, api/ and the Python project files
+# (pyproject.toml, uv.lock, .python-version, and README.md, which pyproject.toml names as its readme).
+tests/
+e2e/
+.github/
+node_modules/
+.venv/
+.pytest_cache/
+.ruff_cache/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+package.json
+package-lock.json
+playwright.config.*
+.prettierrc
+.prettierignore
+.htmlvalidate.json
+.editorconfig
+.git-blame-ignore-revs
+pyrightconfig.json
+.e2e-root/
+test-results/
+playwright-report/
