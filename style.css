@@ -18,18 +18,36 @@ h1 {
     font-size: 1.5rem;
 }
 
-.loading {
+.status {
     text-align: center;
+    max-width: 600px;
+    margin: 0 auto 12px;
+}
+
+.status[data-state="loading"],
+.status[data-state="message"] {
     color: #666;
     padding: 40px;
 }
 
-.error {
-    text-align: center;
-    color: #d32f2f;
+.status[data-state="error"] {
+    color: #c62828;
     padding: 20px;
     background: #ffebee;
     border-radius: 8px;
+}
+
+.weather-list {
+    list-style: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .weather-card {
@@ -41,6 +59,7 @@ h1 {
 }
 
 .weather-card .date {
+    display: block;
     font-size: 0.85rem;
     color: #666;
     margin-bottom: 4px;
@@ -54,7 +73,7 @@ h1 {
 
 .weather-card .country {
     font-size: 0.85rem;
-    color: #888;
+    color: #6b6b6b;
     margin-bottom: 4px;
 }
 
@@ -79,7 +98,7 @@ h1 {
 }
 
 .weather-card .unavailable {
-    color: #999;
+    color: #6b6b6b;
     font-style: italic;
 }
 

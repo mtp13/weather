@@ -1,89 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="./cruise.png">
-    <link rel="apple-touch-icon" href="./cruise.png">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Trip Weather Forecast</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <h1>🌤️ Trip Weather Forecast</h1>
-    <div id="app">
-        <div class="loading">Loading weather data...</div>
-    </div>
-    
-    <script>
-        async function fetchWeather() {
-            try {
-                const response = await fetch('./api/weather');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch weather data');
-                }
-                const data = await response.json();
-                renderWeather(data);
-            } catch (error) {
-                document.getElementById('app').innerHTML = 
-                    `<div class="error">Error: ${error.message}</div>`;
-            }
-        }
-        
-        function formatDate(dateStr) {
-            const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('en-US', { 
-                weekday: 'long',
-                month: 'short', 
-                day: 'numeric' 
-            });
-        }
-        
-        function renderWeather(data) {
-            const app = document.getElementById('app');
-            
-            if (!data || data.length === 0) {
-                app.innerHTML = '<div class="error">No weather data available</div>';
-                return;
-            }
-            
-            let html = '<div class="weather-list">';
-            
-            for (const item of data) {
-                const dateFormatted = formatDate(item.date);
-                
-                if (item.max_temp === null) {
-                    html += `
-                        <div class="weather-card">
-                            <div class="date">${dateFormatted}</div>
-                            <div class="city">${item.city}</div>
-                            <div class="country">${item.country}</div>
-                            <div class="weather">-</div>
-                            <div class="temps">
-                                <span class="unavailable">Forecast unavailable</span>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="weather-card">
-                            <div class="date">${dateFormatted}</div>
-                            <div class="city">${item.city}</div>
-                            <div class="country">${item.country}</div>
-                            <div class="weather">${item.weather || '-'}</div>
-                            <div class="temps">
-                                <span class="high">↑ ${item.max_temp}°F</span>
-                                <span class="low">↓ ${item.min_temp}°F</span>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            
-            html += '</div>';
-            app.innerHTML = html;
-        }
-        
-        fetchWeather();
-    </script>
-</body>
+    <link rel="icon" type="image/png" href="cruise.png" />
+    <link rel="apple-touch-icon" href="cruise.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1><span aria-hidden="true">🌤️</span> Trip Weather Forecast</h1>
+      <p id="status" class="status" role="status" data-state="loading">
+        Loading weather data…
+      </p>
+      <ul id="weather-list" class="weather-list"></ul>
+    </main>
+  </body>
 </html>
