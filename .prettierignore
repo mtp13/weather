@@ -1,0 +1,12 @@
+node_modules/
+package-lock.json
+uv.lock
+*.png
+.e2e-root/
+.venv/
+# Hand-maintained trip data; leave its formatting alone.
+itinerary.json
+# Recorded Open-Meteo responses, kept as recorded.
+tests/fixtures/open_meteo_*.json
+.pytest_cache/
+.ruff_cache/

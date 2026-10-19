@@ -1,2 +1,5 @@
 # style: apply ruff formatting
 8ef4f4dbff0a28e975c1aef6be686ae50aeda7dc
+
+# style: apply Prettier formatting
+09ee58f9ccc3eafa3145d9444da761d3d35a525e

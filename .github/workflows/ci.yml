@@ -31,3 +31,29 @@ jobs:
 
       - name: Run pytest
         run: uv run pytest
+
+  test:
+    name: Frontend lint & unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint and check formatting
+        run: npm run lint
+
+      - name: Check JavaScript syntax
+        run: node --check app.js
+
+      - name: Run unit tests
+        run: npm test
