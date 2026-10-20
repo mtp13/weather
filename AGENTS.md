@@ -115,6 +115,9 @@ and `e2e` (Playwright and axe).
 
 ## Conventions
 
+- Markdown is wrapped at 80 columns: `.prettierrc` has a `*.md` override
+  (`proseWrap: always`), so `npm run format` rewraps prose and
+  `npm run format:check` flags long lines.
 - **ruff** (Python) and **Prettier** (JS, CSS, HTML, Markdown, YAML, JSON) are
   the source of truth for formatting, so don't hand-format against them.
   `.editorconfig` sets LF line endings, a final newline, 4-space indentation for
