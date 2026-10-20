@@ -1,14 +1,20 @@
 # Trip Weather Forecast
 
-A daily weather forecast for each day of an upcoming trip, from [Open-Meteo](https://open-meteo.com/) (free, no API key).
+A daily weather forecast for each day of an upcoming trip, from
+[Open-Meteo](https://open-meteo.com/) (free, no API key).
 
 **Live:** https://mike.pullen.dev/weather/
 
-A Vercel Python function (`api/weather.py`) reads `itinerary.json` and returns one forecast per trip day, using each city's local calendar day. A static page (`index.html`, `app.js`, `style.css`) shows them. Days that have already passed are hidden, and once every date has passed the page says "Trip dates have passed".
+A Vercel Python function (`api/weather.py`) reads `itinerary.json` and returns
+one forecast per trip day, using each city's local calendar day. A static page
+(`index.html`, `app.js`, `style.css`) shows them. Days that have already passed
+are hidden, and once every date has passed the page says "Trip dates have
+passed".
 
 ## Updating the trip
 
-Edit `itinerary.json`: a list of visits, each with `name`, `country`, `latitude`, `longitude` and `dates` (ISO `YYYY-MM-DD`, one per day).
+Edit `itinerary.json`: a list of visits, each with `name`, `country`,
+`latitude`, `longitude` and `dates` (ISO `YYYY-MM-DD`, one per day).
 
 ```json
 [
@@ -22,7 +28,8 @@ Edit `itinerary.json`: a list of visits, each with `name`, `country`, `latitude`
 ]
 ```
 
-Open-Meteo forecasts up to 16 days ahead, so later dates show "Forecast available ~16 days ahead" until they come into range. The file is public.
+Open-Meteo forecasts up to 16 days ahead, so later dates show "Forecast
+available ~16 days ahead" until they come into range. The file is public.
 
 ## Running and testing
 
