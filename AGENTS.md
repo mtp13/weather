@@ -35,7 +35,7 @@ uv run python api/weather.py          # print the real forecast as a table (call
 npm test                              # node --test tests/*.test.js (Node built-in test runner)
 npm run test:e2e                      # playwright test (Desktop Chromium + Mobile WebKit E2E & axe a11y)
 npm run format                        # prettier --write .
-npm run lint                          # prettier --check . && html-validate index.html
+npm run lint                          # npm run format:check && npm run lint:html
 node --check app.js                   # syntax check (CI runs this too)
 vercel dev                            # run the page and the real function at http://localhost:3000
 python3 -m http.server 4371           # static page only; /api/weather will 404 unless mocked
@@ -190,6 +190,11 @@ and `e2e` (Playwright and axe).
   can only be checked with `curl` against production after merging. A change to
   the function or to `.vercelignore` also needs someone to confirm the
   production deploy succeeded after merging.
+- **To opt a branch into a Vercel preview,** add it to that branch's own
+  `vercel.json`, because the rule is read per branch:
+  `{"master": true, "feat/x": true, "**": false}`. Pushing the branch then
+  deploys it and the preview URL appears on the PR. Every deployment counts
+  against the 100/day budget, so drop the entry when the branch is finished.
 - `.vercelignore` excludes `package.json`, `package-lock.json`, tests and
   tooling configs, so Vercel skips `npm install`. It must **not** exclude
   `pyproject.toml`, `uv.lock`, `.python-version`, `README.md` (the
