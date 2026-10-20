@@ -3,3 +3,5 @@
 
 # style: apply Prettier formatting
 09ee58f9ccc3eafa3145d9444da761d3d35a525e
+# Wrap Markdown at 80 columns
+f4ccf78d17e4900c6bf0486c1df0da2b2c8ae756

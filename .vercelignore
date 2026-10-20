@@ -9,6 +9,7 @@ node_modules/
 .pytest_cache/
 .ruff_cache/
 AGENTS.md
+deferred-review-items.md
 CLAUDE.md
 GEMINI.md
 package.json
