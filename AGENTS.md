@@ -46,6 +46,7 @@ Run commands from the repo root. CI (`.github/workflows/ci.yml`) runs three jobs
 | `package.json`, `package-lock.json`                                     | Node dev tooling only (Prettier, html-validate, Playwright, axe); no `build` script                              |
 | `.prettierrc`, `.prettierignore`, `.htmlvalidate.json`, `.editorconfig` | Formatter and linter configuration                                                                               |
 | `.git-blame-ignore-revs`                                                | Formatting-only commits to ignore in `git blame`                                                                 |
+| `tests/test_vercel_json.py`                                             | Guards the `vercel.json` branch-deployment rule (only the default branch deploys)                                |
 | `tests/`                                                                | `test_weather.py`, `test_vercelignore.py` (pytest); `app.test.js` (node:test); `conftest.py`                     |
 | `tests/fixtures/`                                                       | Made-up itinerary and real recorded Open-Meteo responses for the Python tests                                    |
 | `e2e/`                                                                  | `weather.spec.js` (Playwright + axe), `csp-fixture.js` (applies the `vercel.json` CSP), `fixtures/` (mocked API) |
@@ -86,12 +87,13 @@ Run commands from the repo root. CI (`.github/workflows/ci.yml`) runs three jobs
 - Hosted on **Vercel**: static files plus the Python function in `api/` (Vercel detects it; `vercel.json` has no `builds` or `routes`, and must not get any).
 - Production is `https://mike.pullen.dev/weather/`, proxied from this Vercel project (`weather-mike-pullen.vercel.app`) by the main site (`mtp13/mike.pullen.dev`). The Vercel project URL serves the app from `/`.
 - All paths must stay relative. Never use root-anchored paths (`/…`) or a `<base>` tag.
-- Vercel previews are behind login, so headers and `.vercelignore` can only be checked with `curl` against production after merging. A change to the function or to `.vercelignore` also needs someone to open the preview and confirm the deploy succeeded.
+- Only `master` is deployed (`git.deploymentEnabled` in `vercel.json`), so feature branches and PRs get no Vercel preview (and no `Vercel` check on PRs, which is expected) because the Hobby plan caps deployments at 100/day. Test on localhost instead. The keys are minimatch patterns: keep `"**": false` (a bare `*` does not match branch names containing `/`, such as `feat/x`, so they would still deploy) and keep the explicit `"master": true`. `tests/test_vercel_json.py` guards this. Headers and `.vercelignore` can only be checked with `curl` against production after merging. A change to the function or to `.vercelignore` also needs someone to confirm the production deploy succeeded after merging.
 - `.vercelignore` excludes `package.json`, `package-lock.json`, tests and tooling configs, so Vercel skips `npm install`. It must **not** exclude `pyproject.toml`, `uv.lock`, `.python-version`, `README.md` (the `pyproject.toml` readme), `api/` or `itinerary.json`, because the Python build needs them. If you add a tooling file, add it to `.vercelignore`.
 - Security headers (strict CSP, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) and the `index.html` cache rule live in `vercel.json`. Never commit secrets.
 
 ## Git & GitHub
 
+- Commit locally as often as you like, but push once per unit of work: every push to `master` is a Vercel deployment and every PR push is a CI run. Don't push WIP commits, and batch review fixes into one push.
 - The repo is on GitHub at `mtp13/weather` (remote `origin`), and `master` is the default branch (it stays `master`). The repo is public, so never commit secrets.
 - Before making changes, check the current branch. If you're on `master`, create a feature
   branch first (`feat/…`, `fix/…`, `chore/…`, `docs/…`). If you're already on a feature
