@@ -5,27 +5,31 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_BRANCH = "master"
 
 
-def test_only_master_deploys():
+def _enabled():
     config = json.loads((REPO_ROOT / "vercel.json").read_text())
-    assert config["git"]["deploymentEnabled"] == {"master": True, "**": False}
+    return config["git"]["deploymentEnabled"]
 
 
-def test_deploys_the_branch_ci_runs_on():
-    config = json.loads((REPO_ROOT / "vercel.json").read_text())
-    deployed = [
-        branch
-        for branch, enabled in config["git"]["deploymentEnabled"].items()
-        if enabled
-    ]
+def test_default_branch_deploys_and_catch_all_is_blocked():
+    enabled = _enabled()
+    assert enabled[DEFAULT_BRANCH] is True, (
+        "the default branch must deploy, or production stops updating"
+    )
+    assert enabled["**"] is False, (
+        "the catch-all rule must stay false, or branch previews eat the daily budget"
+    )
+
+
+def test_ci_runs_on_the_default_branch():
     ci = (REPO_ROOT / ".github/workflows/ci.yml").read_text()
-    ci_branches = set()
+    branches = set()
     for group in re.findall(r"branches:\s*\[([^\]]*)\]", ci):
-        ci_branches.update(part.strip() for part in group.split(",") if part.strip())
+        branches.update(part.strip() for part in group.split(",") if part.strip())
     for branch in re.findall(r"^\s*-\s+(\S+)\s*$", ci, re.MULTILINE):
-        ci_branches.add(branch)
-    for branch in deployed:
-        assert branch in ci_branches, (
-            f"CI does not run on {branch}, so it would never be deployed"
-        )
+        branches.add(branch)
+    assert DEFAULT_BRANCH in branches, (
+        "CI does not run on the default branch, so a merge records no CI run"
+    )

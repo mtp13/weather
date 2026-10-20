@@ -68,6 +68,7 @@ and `e2e` (Playwright and axe).
 | `e2e/`                                                                  | `weather.spec.js` (Playwright + axe), `csp-fixture.js` (applies the `vercel.json` CSP), `fixtures/` (mocked API) |
 | `playwright.config.js`                                                  | Playwright projects (root and `/weather/` subfolder) and local web servers                                       |
 | `.github/workflows/ci.yml`, `dependabot.yml`                            | CI jobs and monthly dependency updates (uv, npm, GitHub Actions)                                                 |
+| `deferred-review-items.md`                                              | Persistent list of review findings deferred to a later PR                                                        |
 
 ## How it works
 
