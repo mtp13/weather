@@ -29,7 +29,7 @@ vercel dev                            # run the page and the real function at ht
 python3 -m http.server 4371           # static page only; /api/weather will 404 unless mocked
 ```
 
-Run commands from the repo root. CI (`.github/workflows/ci.yml`) runs three jobs on pull requests and pushes to `master`: `python` (`uv sync --locked`, `ruff check`, `ruff format --check`, `pytest`), `test` (`npm ci`, `npm run lint`, `node --check app.js`, `npm test`) and `e2e` (Playwright and axe).
+Run commands from the repo root. CI (`.github/workflows/ci.yml`) runs three jobs on pull requests and pushes to `master` (superseded runs on the same ref are cancelled): `python` (`uv sync --locked`, `ruff check`, `ruff format --check`, `pytest`), `test` (`npm ci`, `npm run lint`, `node --check app.js`, `npm test`) and `e2e` (Playwright and axe).
 
 ## Layout
 
@@ -87,7 +87,7 @@ Run commands from the repo root. CI (`.github/workflows/ci.yml`) runs three jobs
 - Hosted on **Vercel**: static files plus the Python function in `api/` (Vercel detects it; `vercel.json` has no `builds` or `routes`, and must not get any).
 - Production is `https://mike.pullen.dev/weather/`, proxied from this Vercel project (`weather-mike-pullen.vercel.app`) by the main site (`mtp13/mike.pullen.dev`). The Vercel project URL serves the app from `/`.
 - All paths must stay relative. Never use root-anchored paths (`/…`) or a `<base>` tag.
-- Only `master` is deployed (`git.deploymentEnabled` in `vercel.json`), so feature branches and PRs get no Vercel preview (and no `Vercel` check on PRs, which is expected) because the Hobby plan caps deployments at 100/day. Test on localhost instead. The keys are minimatch patterns: keep `"**": false` (a bare `*` does not match branch names containing `/`, such as `feat/x`, so they would still deploy) and keep the explicit `"master": true`. `tests/test_vercel_json.py` guards this. Headers and `.vercelignore` can only be checked with `curl` against production after merging. A change to the function or to `.vercelignore` also needs someone to confirm the production deploy succeeded after merging.
+- Only `master` is deployed (`git.deploymentEnabled` in `vercel.json`), so feature branches and PRs get no Vercel preview (and no `Vercel` check on PRs, which is expected) because the Hobby plan caps deployments at 100/day. Test on localhost instead. The keys are minimatch patterns: keep `"**": false` (a bare `*` does not match branch names containing `/`, such as `feat/x`, so they would still deploy) and keep the explicit `"master": true` (Vercel deploys a branch if any matching rule is `true`, so `master` still deploys). This only blocks Git-triggered deployments: CLI `vercel` deploys and deploy hooks still count. `tests/test_vercel_json.py` guards this. Headers and `.vercelignore` can only be checked with `curl` against production after merging. A change to the function or to `.vercelignore` also needs someone to confirm the production deploy succeeded after merging.
 - `.vercelignore` excludes `package.json`, `package-lock.json`, tests and tooling configs, so Vercel skips `npm install`. It must **not** exclude `pyproject.toml`, `uv.lock`, `.python-version`, `README.md` (the `pyproject.toml` readme), `api/` or `itinerary.json`, because the Python build needs them. If you add a tooling file, add it to `.vercelignore`.
 - Security headers (strict CSP, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) and the `index.html` cache rule live in `vercel.json`. Never commit secrets.
 
